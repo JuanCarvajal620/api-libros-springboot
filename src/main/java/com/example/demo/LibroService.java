@@ -52,11 +52,10 @@ public class LibroService {
         String autor){
 
         List<Libro> libros =
-                repository.findByAutorIgnoreCase(autor);
+                repository.findByAutorContainingIgnoreCase(autor);
             if(libros.isEmpty()){
                 throw new LibroNoEncontradoException("Libro No Encontrado");
         }
-
         List<LibroDTO> resultados = new ArrayList<>();
         for (Libro libro : libros) {
             resultados.add(LibroMapper.toDTO(libro));
@@ -85,6 +84,26 @@ public class LibroService {
         repository.save(libro);
 
         return LibroMapper.toDTO(libro);
+    }
+
+    public List<LibroDTO> buscarLibrosPorTitulo(
+            String titulo
+    ) {
+        return repository
+                .findByTituloContainingIgnoreCase(titulo)
+                .stream()
+                .map(LibroMapper::toDTO)
+                .toList();
+    }
+
+    public List<String> buscarSugerencias(
+            String titulo
+    ) {
+        return repository
+                .findByTituloContainingIgnoreCase(titulo)
+                .stream()
+                .map(Libro::getTitulo)
+                .toList();
     }
 
 }   
