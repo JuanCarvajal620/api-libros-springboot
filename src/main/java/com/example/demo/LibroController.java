@@ -48,7 +48,7 @@ public class LibroController {
         }
 
         @PutMapping ("/libros/{id}")//PUT
-        public ResponseEntity<LibroDTO> modificarLibro(@PathVariable Long id, @Valid @RequestBody LibroDTO informacion){
+        public ResponseEntity<LibroDTO> cambiarLibro(@PathVariable Long id, @Valid @RequestBody LibroDTO informacion){
             LibroDTO libroActualizado = libroService.cambiarLibro(id, informacion);
             return ResponseEntity.ok(libroActualizado);
         }
@@ -58,5 +58,13 @@ public class LibroController {
             return ResponseEntity.ok(libroService.eliminarLibroPorId(id));
         }
 
+        @GetMapping("libros/titulo")  //GET POR TITULO (DTO)
+        public ResponseEntity<List<LibroDTO>>buscarLibrosPorTitulo(@RequestParam String titulo){
+            return ResponseEntity.ok(libroService.buscarLibrosPorTitulo(titulo));
+        }
 
+        @GetMapping("libros/sugerencias") //GET POR TITULO (SOLO TITULO)
+        public ResponseEntity<List<String>> buscarSugerencias(@RequestParam String titulo){
+            return ResponseEntity.ok(libroService.buscarSugerencias(titulo));
+        }
 }       
