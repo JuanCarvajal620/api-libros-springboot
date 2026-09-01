@@ -40,7 +40,10 @@ public class LibroService {
 
 
     public LibroDTO crearLibro(LibroDTO libroDTO) {
-
+        if(repository.existsByTituloIgnoreCaseAndAutorIgnoreCase(libroDTO.titulo(), libroDTO.autor())
+        ){throw new LibroDuplicadoException(
+                "El libro ya existe"
+        );}
         Libro libro = LibroMapper.toEntity(libroDTO);
         repository.save(libro);
         return LibroMapper.toDTO(libro);
@@ -80,6 +83,7 @@ public class LibroService {
         libro.setTitulo(informacion.titulo());
         libro.setAutor(informacion.autor());
         libro.setPaginas(informacion.paginas());
+
 
         repository.save(libro);
 

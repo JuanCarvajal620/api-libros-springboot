@@ -14,4 +14,9 @@ public interface LibroRepository
 
     List<Libro> findByTituloContainingIgnoreCase(String titulo);
 
+    boolean existsByTituloIgnoreCaseAndAutorIgnoreCase(
+            String titulo,
+            String autor
+    );
+
 }
